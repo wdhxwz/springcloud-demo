@@ -1,8 +1,27 @@
 ---
+spring:
+  profiles: discovery1
 server:
-  port: 9999
+  port: 8765
 eureka:
+  instance:
+    hostname: discovery1
   client:
     register-with-eureka: false
     fetch-registry: false
-    serviceUrl.defaultZone: http://localhost:${server.port}/eureka/
+    serviceUrl: 
+      defaultZone: http://discovery2:18765/eureka/
+
+---
+spring:
+  profiles: discovery2
+server:
+  port: 18765
+eureka:
+  instance:
+    hostname: discovery2
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl: 
+      defaultZone: http://discovery1:8765/eureka/
