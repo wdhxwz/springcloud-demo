@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: hello-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://krista.service.registry.B:18765/eureka/
+server:
+  port: 9090

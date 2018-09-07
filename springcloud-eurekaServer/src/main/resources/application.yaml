@@ -1,16 +1,35 @@
+spring:
+  profiles:
+    active: discovery1
+  application:
+    name: krista.service.registry.cluster
+  mvc:
+    favicon:
+      enabled: false
+
 ---
 spring:
   profiles: discovery1
 server:
-  port: 8765
+  port: 8765 # 注册中心端口
 eureka:
+  server:
+    renewal-percent-threshold: 0.50
   instance:
-    hostname: discovery1
+    hostname: krista.service.registry.A
+    # prefer-ip-address: true # ip定义注册中心地址
+    lease-renewal-interval-in-seconds: 30 # 服务续约的间隔，默认30秒续一次
+    lease-expiration-duration-in-seconds: 90 # 服务失效的时间，默认90秒
+    metadata-map:
+      environment: dev
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port} # 将实例ID注册是ip：port形式，而不是ip：hostname:port形式
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true # 是否向注册中心注册自己,默认true
+    fetch-registry: true # 是否从注册中心获取服务信息,默认true
     serviceUrl: 
-      defaultZone: http://discovery2:18765/eureka/
+      defaultZone: http://krista.service.registry.B:18765/eureka/ # 指定服务注册中心
+    registry-fetch-interval-seconds: 30  # 从注册中心拉取服务信息，更新本地缓存，默认30秒
+
 
 ---
 spring:
@@ -18,10 +37,15 @@ spring:
 server:
   port: 18765
 eureka:
+  server:
+    eviction-interval-timer-in-ms: 60000 # 剔除无效服务的时间间隔，毫秒
+    renewal-percent-threshold: 0.50
   instance:
-    hostname: discovery2
+    hostname: krista.service.registry.B
+    # prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     serviceUrl: 
-      defaultZone: http://discovery1:8765/eureka/
+      defaultZone: http://krista.service.registry.A:8765/eureka/

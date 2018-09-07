@@ -9,6 +9,7 @@
 		<module>springcloud-eurekaServer</module>
         <module>springcloud-config-server</module>
         <module>springcloud-config-client</module>
+        <module>springcloud-demo-helloService</module>
     </modules>
 	<properties>
 		<java.version>1.8</java.version>
