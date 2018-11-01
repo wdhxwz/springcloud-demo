@@ -2,7 +2,7 @@ spring:
   profiles:
     active: discovery1
   application:
-    name: krista.service.registry.cluster
+    name: service-registry
   mvc:
     favicon:
       enabled: false
@@ -24,8 +24,8 @@ eureka:
       environment: dev
     instance-id: ${spring.cloud.client.ipAddress}:${server.port} # 将实例ID注册是ip：port形式，而不是ip：hostname:port形式
   client:
-    register-with-eureka: true # 是否向注册中心注册自己,默认true
-    fetch-registry: true # 是否从注册中心获取服务信息,默认true
+    register-with-eureka: false # 是否向注册中心注册自己,默认true
+    fetch-registry: false # 是否从注册中心获取服务信息,默认true
     serviceUrl: 
       defaultZone: http://krista.service.registry.B:18765/eureka/ # 指定服务注册中心
     registry-fetch-interval-seconds: 30  # 从注册中心拉取服务信息，更新本地缓存，默认30秒
@@ -45,7 +45,7 @@ eureka:
     # prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: false
+    fetch-registry: false
     serviceUrl: 
       defaultZone: http://krista.service.registry.A:8765/eureka/
