@@ -15,6 +15,7 @@ server:
 eureka:
   server:
     renewal-percent-threshold: 0.50
+    # enable-self-preservation: false
   instance:
     hostname: krista.service.registry.A
     # prefer-ip-address: true # ip定义注册中心地址
@@ -24,7 +25,7 @@ eureka:
       environment: dev
     instance-id: ${spring.cloud.client.ipAddress}:${server.port} # 将实例ID注册是ip：port形式，而不是ip：hostname:port形式
   client:
-    register-with-eureka: false # 是否向注册中心注册自己,默认true
+    register-with-eureka: true # 是否向注册中心注册自己,默认true
     fetch-registry: false # 是否从注册中心获取服务信息,默认true
     serviceUrl: 
       defaultZone: http://krista.service.registry.B:18765/eureka/ # 指定服务注册中心
@@ -45,7 +46,7 @@ eureka:
     # prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
   client:
-    register-with-eureka: false
+    register-with-eureka: true
     fetch-registry: false
     serviceUrl: 
       defaultZone: http://krista.service.registry.A:8765/eureka/
